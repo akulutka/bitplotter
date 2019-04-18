@@ -1,41 +1,39 @@
 import math
-minx = -5
-maxx = 5
+minx = -3
+maxx = 3
 
 precx = 0.2
-precy = 0.01
+precy = 0.2
+
+lim = 999999
 
 rangex = int((maxx - minx + 1) / precx)
 
 def rawf(x):
-    return math.erf(x) * math.sin(x)
+    return math.sinh(x)
 
 def plotf(x):
-    lminy = -9999999
-    lmaxy = -lminy
     try:
         f = rawf(x)
-        if f < lminy:
-            return lminy
-        elif f > lmaxy:
-            return lmaxy
+        if abs(f) > lim:
+            raise Exception
         return f
     except Exception:
         return None
 
 
 def minmax():
-    lminy = maxy = -9999999
-    lmaxy = miny = -maxy
+    maxy = -9999999
+    miny = -maxy
     
     i = minx
     while i <= maxx:
         x = i
         y = plotf(x)
         if y != None:
-            if lminy < y < miny:
+            if y < miny:
                 miny = y
-            if lmaxy > y > maxy:
+            if y > maxy:
                 maxy = y
         i += precx
     return miny, maxy
